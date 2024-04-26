@@ -44,7 +44,7 @@ namespace StarShip.Pages
 
         private void TroublesBtns_Click(object sender, RoutedEventArgs e)
         {
-/*            NavigationService.Navigate(new TroublesPage());*/
+            NavigationService.Navigate(new TrublesPage());
         }
 
         void Refresh()

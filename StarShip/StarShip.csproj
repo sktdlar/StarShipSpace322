@@ -151,6 +151,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\TrublesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\ViewFlightDGPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -171,6 +175,9 @@
     </Compile>
     <Compile Include="Pages\RouteInfoPage.xaml.cs">
       <DependentUpon>RouteInfoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TrublesPage.xaml.cs">
+      <DependentUpon>TrublesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ViewFlightDGPage.xaml.cs">
       <DependentUpon>ViewFlightDGPage.xaml</DependentUpon>
