@@ -1,0 +1,735 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище SpaceShip1Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Flight">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="SpaceshipId" Type="int" />
+          <Property Name="RouteId" Type="int" />
+          <Property Name="DepartureDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Flight_Passanger">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="idPassanger" Type="int" />
+          <Property Name="idFlight" Type="int" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Gender" />
+          </Key>
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Passenger">
+          <Key>
+            <PropertyRef Name="Pasport_Number" />
+          </Key>
+          <Property Name="Pasport_Number" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="50" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="Weight" Type="float" />
+        </EntityType>
+        <EntityType Name="Planet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Max_Weight" Type="float" />
+        </EntityType>
+        <EntityType Name="Route">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Planet1Id" Type="int" />
+          <Property Name="Planet2Id" Type="int" />
+          <Property Name="Wearout" Type="float" />
+          <Property Name="Duration" Type="float" />
+        </EntityType>
+        <EntityType Name="Spaceship">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Deterioration" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Trouble">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Trouble_Passanger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Trouble_Id" Type="int" />
+          <Property Name="Passenger_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Trouble_Planet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Trouble_Id" Type="int" />
+          <Property Name="Planet_Id" Type="int" />
+        </EntityType>
+        <Association Name="FK_Flight_Passanger_Flight">
+          <End Role="Flight" Type="Self.Flight" Multiplicity="0..1" />
+          <End Role="Flight_Passanger" Type="Self.Flight_Passanger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flight">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Flight_Passanger">
+              <PropertyRef Name="idFlight" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flight_Passanger_Passenger">
+          <End Role="Passenger" Type="Self.Passenger" Multiplicity="0..1" />
+          <End Role="Flight_Passanger" Type="Self.Flight_Passanger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passenger">
+              <PropertyRef Name="Pasport_Number" />
+            </Principal>
+            <Dependent Role="Flight_Passanger">
+              <PropertyRef Name="idPassanger" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flight_Route">
+          <End Role="Route" Type="Self.Route" Multiplicity="0..1" />
+          <End Role="Flight" Type="Self.Flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Route">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Flight">
+              <PropertyRef Name="RouteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flight_Spaceship">
+          <End Role="Spaceship" Type="Self.Spaceship" Multiplicity="0..1" />
+          <End Role="Flight" Type="Self.Flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spaceship">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Flight">
+              <PropertyRef Name="SpaceshipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Passenger_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
+          <End Role="Passenger" Type="Self.Passenger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Gender" />
+            </Principal>
+            <Dependent Role="Passenger">
+              <PropertyRef Name="Gender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Route_Planet">
+          <End Role="Planet" Type="Self.Planet" Multiplicity="0..1" />
+          <End Role="Route" Type="Self.Route" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Planet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Route">
+              <PropertyRef Name="Planet1Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Route_Planet1">
+          <End Role="Planet" Type="Self.Planet" Multiplicity="0..1" />
+          <End Role="Route" Type="Self.Route" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Planet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Route">
+              <PropertyRef Name="Planet2Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trouble_Passanger_Passenger">
+          <End Role="Passenger" Type="Self.Passenger" Multiplicity="0..1" />
+          <End Role="Trouble_Passanger" Type="Self.Trouble_Passanger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passenger">
+              <PropertyRef Name="Pasport_Number" />
+            </Principal>
+            <Dependent Role="Trouble_Passanger">
+              <PropertyRef Name="Passenger_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trouble_Passanger_Trouble">
+          <End Role="Trouble" Type="Self.Trouble" Multiplicity="0..1" />
+          <End Role="Trouble_Passanger" Type="Self.Trouble_Passanger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trouble">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Trouble_Passanger">
+              <PropertyRef Name="Trouble_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trouble_Planet_Planet">
+          <End Role="Planet" Type="Self.Planet" Multiplicity="0..1" />
+          <End Role="Trouble_Planet" Type="Self.Trouble_Planet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Planet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Trouble_Planet">
+              <PropertyRef Name="Planet_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trouble_Planet_Trouble">
+          <End Role="Trouble" Type="Self.Trouble" Multiplicity="0..1" />
+          <End Role="Trouble_Planet" Type="Self.Trouble_Planet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trouble">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Trouble_Planet">
+              <PropertyRef Name="Trouble_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище SpaceShip1ModelContainer">
+          <EntitySet Name="Flight" EntityType="Self.Flight" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Flight_Passanger" EntityType="Self.Flight_Passanger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Passenger" EntityType="Self.Passenger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Planet" EntityType="Self.Planet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Route" EntityType="Self.Route" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Spaceship" EntityType="Self.Spaceship" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trouble" EntityType="Self.Trouble" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trouble_Passanger" EntityType="Self.Trouble_Passanger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trouble_Planet" EntityType="Self.Trouble_Planet" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Flight_Passanger_Flight" Association="Self.FK_Flight_Passanger_Flight">
+            <End Role="Flight" EntitySet="Flight" />
+            <End Role="Flight_Passanger" EntitySet="Flight_Passanger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flight_Passanger_Passenger" Association="Self.FK_Flight_Passanger_Passenger">
+            <End Role="Passenger" EntitySet="Passenger" />
+            <End Role="Flight_Passanger" EntitySet="Flight_Passanger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flight_Route" Association="Self.FK_Flight_Route">
+            <End Role="Route" EntitySet="Route" />
+            <End Role="Flight" EntitySet="Flight" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flight_Spaceship" Association="Self.FK_Flight_Spaceship">
+            <End Role="Spaceship" EntitySet="Spaceship" />
+            <End Role="Flight" EntitySet="Flight" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Passenger_Gender" Association="Self.FK_Passenger_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Passenger" EntitySet="Passenger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Route_Planet" Association="Self.FK_Route_Planet">
+            <End Role="Planet" EntitySet="Planet" />
+            <End Role="Route" EntitySet="Route" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Route_Planet1" Association="Self.FK_Route_Planet1">
+            <End Role="Planet" EntitySet="Planet" />
+            <End Role="Route" EntitySet="Route" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trouble_Passanger_Passenger" Association="Self.FK_Trouble_Passanger_Passenger">
+            <End Role="Passenger" EntitySet="Passenger" />
+            <End Role="Trouble_Passanger" EntitySet="Trouble_Passanger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trouble_Passanger_Trouble" Association="Self.FK_Trouble_Passanger_Trouble">
+            <End Role="Trouble" EntitySet="Trouble" />
+            <End Role="Trouble_Passanger" EntitySet="Trouble_Passanger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trouble_Planet_Planet" Association="Self.FK_Trouble_Planet_Planet">
+            <End Role="Planet" EntitySet="Planet" />
+            <End Role="Trouble_Planet" EntitySet="Trouble_Planet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trouble_Planet_Trouble" Association="Self.FK_Trouble_Planet_Trouble">
+            <End Role="Trouble" EntitySet="Trouble" />
+            <End Role="Trouble_Planet" EntitySet="Trouble_Planet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SpaceShip1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Flight">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="SpaceshipId" Type="Int32" />
+          <Property Name="RouteId" Type="Int32" />
+          <Property Name="DepartureDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Flight_Passanger" Relationship="Self.FK_Flight_Passanger_Flight" FromRole="Flight" ToRole="Flight_Passanger" />
+          <NavigationProperty Name="Route" Relationship="Self.FK_Flight_Route" FromRole="Flight" ToRole="Route" />
+          <NavigationProperty Name="Spaceship" Relationship="Self.FK_Flight_Spaceship" FromRole="Flight" ToRole="Spaceship" />
+        </EntityType>
+        <EntityType Name="Flight_Passanger">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="idPassanger" Type="Int32" />
+          <Property Name="idFlight" Type="Int32" />
+          <NavigationProperty Name="Flight" Relationship="Self.FK_Flight_Passanger_Flight" FromRole="Flight_Passanger" ToRole="Flight" />
+          <NavigationProperty Name="Passenger" Relationship="Self.FK_Flight_Passanger_Passenger" FromRole="Flight_Passanger" ToRole="Passenger" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Gender1" />
+          </Key>
+          <Property Name="Gender1" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Passenger" Relationship="Self.FK_Passenger_Gender" FromRole="Gender" ToRole="Passenger" />
+        </EntityType>
+        <EntityType Name="Passenger">
+          <Key>
+            <PropertyRef Name="Pasport_Number" />
+          </Key>
+          <Property Name="Pasport_Number" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="Weight" Type="Double" />
+          <NavigationProperty Name="Flight_Passanger" Relationship="Self.FK_Flight_Passanger_Passenger" FromRole="Passenger" ToRole="Flight_Passanger" />
+          <NavigationProperty Name="Gender1" Relationship="Self.FK_Passenger_Gender" FromRole="Passenger" ToRole="Gender" />
+          <NavigationProperty Name="Trouble_Passanger" Relationship="Self.FK_Trouble_Passanger_Passenger" FromRole="Passenger" ToRole="Trouble_Passanger" />
+        </EntityType>
+        <EntityType Name="Planet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Max_Weight" Type="Double" />
+          <NavigationProperty Name="Route" Relationship="Self.FK_Route_Planet" FromRole="Planet" ToRole="Route" />
+          <NavigationProperty Name="Route1" Relationship="Self.FK_Route_Planet1" FromRole="Planet" ToRole="Route" />
+          <NavigationProperty Name="Trouble_Planet" Relationship="Self.FK_Trouble_Planet_Planet" FromRole="Planet" ToRole="Trouble_Planet" />
+        </EntityType>
+        <EntityType Name="Route">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Planet1Id" Type="Int32" />
+          <Property Name="Planet2Id" Type="Int32" />
+          <Property Name="Wearout" Type="Double" />
+          <Property Name="Duration" Type="Double" />
+          <NavigationProperty Name="Flight" Relationship="Self.FK_Flight_Route" FromRole="Route" ToRole="Flight" />
+          <NavigationProperty Name="Planet" Relationship="Self.FK_Route_Planet" FromRole="Route" ToRole="Planet" />
+          <NavigationProperty Name="Planet1" Relationship="Self.FK_Route_Planet1" FromRole="Route" ToRole="Planet" />
+        </EntityType>
+        <EntityType Name="Spaceship">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Deterioration" Type="Int32" />
+          <NavigationProperty Name="Flight" Relationship="Self.FK_Flight_Spaceship" FromRole="Spaceship" ToRole="Flight" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Trouble">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Trouble_Passanger" Relationship="Self.FK_Trouble_Passanger_Trouble" FromRole="Trouble" ToRole="Trouble_Passanger" />
+          <NavigationProperty Name="Trouble_Planet" Relationship="Self.FK_Trouble_Planet_Trouble" FromRole="Trouble" ToRole="Trouble_Planet" />
+        </EntityType>
+        <EntityType Name="Trouble_Passanger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Trouble_Id" Type="Int32" />
+          <Property Name="Passenger_Id" Type="Int32" />
+          <NavigationProperty Name="Passenger" Relationship="Self.FK_Trouble_Passanger_Passenger" FromRole="Trouble_Passanger" ToRole="Passenger" />
+          <NavigationProperty Name="Trouble" Relationship="Self.FK_Trouble_Passanger_Trouble" FromRole="Trouble_Passanger" ToRole="Trouble" />
+        </EntityType>
+        <EntityType Name="Trouble_Planet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Trouble_Id" Type="Int32" />
+          <Property Name="Planet_Id" Type="Int32" />
+          <NavigationProperty Name="Planet" Relationship="Self.FK_Trouble_Planet_Planet" FromRole="Trouble_Planet" ToRole="Planet" />
+          <NavigationProperty Name="Trouble" Relationship="Self.FK_Trouble_Planet_Trouble" FromRole="Trouble_Planet" ToRole="Trouble" />
+        </EntityType>
+        <Association Name="FK_Flight_Passanger_Flight">
+          <End Role="Flight" Type="Self.Flight" Multiplicity="0..1" />
+          <End Role="Flight_Passanger" Type="Self.Flight_Passanger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flight">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Flight_Passanger">
+              <PropertyRef Name="idFlight" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flight_Route">
+          <End Role="Route" Type="Self.Route" Multiplicity="0..1" />
+          <End Role="Flight" Type="Self.Flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Route">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Flight">
+              <PropertyRef Name="RouteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flight_Spaceship">
+          <End Role="Spaceship" Type="Self.Spaceship" Multiplicity="0..1" />
+          <End Role="Flight" Type="Self.Flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spaceship">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Flight">
+              <PropertyRef Name="SpaceshipId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Flight_Passanger_Passenger">
+          <End Role="Passenger" Type="Self.Passenger" Multiplicity="0..1" />
+          <End Role="Flight_Passanger" Type="Self.Flight_Passanger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passenger">
+              <PropertyRef Name="Pasport_Number" />
+            </Principal>
+            <Dependent Role="Flight_Passanger">
+              <PropertyRef Name="idPassanger" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Passenger_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
+          <End Role="Passenger" Type="Self.Passenger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Gender1" />
+            </Principal>
+            <Dependent Role="Passenger">
+              <PropertyRef Name="Gender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trouble_Passanger_Passenger">
+          <End Role="Passenger" Type="Self.Passenger" Multiplicity="0..1" />
+          <End Role="Trouble_Passanger" Type="Self.Trouble_Passanger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passenger">
+              <PropertyRef Name="Pasport_Number" />
+            </Principal>
+            <Dependent Role="Trouble_Passanger">
+              <PropertyRef Name="Passenger_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Route_Planet">
+          <End Role="Planet" Type="Self.Planet" Multiplicity="0..1" />
+          <End Role="Route" Type="Self.Route" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Planet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Route">
+              <PropertyRef Name="Planet1Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Route_Planet1">
+          <End Role="Planet" Type="Self.Planet" Multiplicity="0..1" />
+          <End Role="Route" Type="Self.Route" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Planet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Route">
+              <PropertyRef Name="Planet2Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trouble_Planet_Planet">
+          <End Role="Planet" Type="Self.Planet" Multiplicity="0..1" />
+          <End Role="Trouble_Planet" Type="Self.Trouble_Planet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Planet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Trouble_Planet">
+              <PropertyRef Name="Planet_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trouble_Passanger_Trouble">
+          <End Role="Trouble" Type="Self.Trouble" Multiplicity="0..1" />
+          <End Role="Trouble_Passanger" Type="Self.Trouble_Passanger" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trouble">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Trouble_Passanger">
+              <PropertyRef Name="Trouble_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trouble_Planet_Trouble">
+          <End Role="Trouble" Type="Self.Trouble" Multiplicity="0..1" />
+          <End Role="Trouble_Planet" Type="Self.Trouble_Planet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trouble">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Trouble_Planet">
+              <PropertyRef Name="Trouble_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SpaceShipDB" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Flight" EntityType="Self.Flight" />
+          <EntitySet Name="Flight_Passanger" EntityType="Self.Flight_Passanger" />
+          <EntitySet Name="Gender" EntityType="Self.Gender" />
+          <EntitySet Name="Passenger" EntityType="Self.Passenger" />
+          <EntitySet Name="Planet" EntityType="Self.Planet" />
+          <EntitySet Name="Route" EntityType="Self.Route" />
+          <EntitySet Name="Spaceship" EntityType="Self.Spaceship" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Trouble" EntityType="Self.Trouble" />
+          <EntitySet Name="Trouble_Passanger" EntityType="Self.Trouble_Passanger" />
+          <EntitySet Name="Trouble_Planet" EntityType="Self.Trouble_Planet" />
+          <AssociationSet Name="FK_Flight_Passanger_Flight" Association="Self.FK_Flight_Passanger_Flight">
+            <End Role="Flight" EntitySet="Flight" />
+            <End Role="Flight_Passanger" EntitySet="Flight_Passanger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flight_Route" Association="Self.FK_Flight_Route">
+            <End Role="Route" EntitySet="Route" />
+            <End Role="Flight" EntitySet="Flight" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flight_Spaceship" Association="Self.FK_Flight_Spaceship">
+            <End Role="Spaceship" EntitySet="Spaceship" />
+            <End Role="Flight" EntitySet="Flight" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flight_Passanger_Passenger" Association="Self.FK_Flight_Passanger_Passenger">
+            <End Role="Passenger" EntitySet="Passenger" />
+            <End Role="Flight_Passanger" EntitySet="Flight_Passanger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Passenger_Gender" Association="Self.FK_Passenger_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Passenger" EntitySet="Passenger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trouble_Passanger_Passenger" Association="Self.FK_Trouble_Passanger_Passenger">
+            <End Role="Passenger" EntitySet="Passenger" />
+            <End Role="Trouble_Passanger" EntitySet="Trouble_Passanger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Route_Planet" Association="Self.FK_Route_Planet">
+            <End Role="Planet" EntitySet="Planet" />
+            <End Role="Route" EntitySet="Route" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Route_Planet1" Association="Self.FK_Route_Planet1">
+            <End Role="Planet" EntitySet="Planet" />
+            <End Role="Route" EntitySet="Route" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trouble_Planet_Planet" Association="Self.FK_Trouble_Planet_Planet">
+            <End Role="Planet" EntitySet="Planet" />
+            <End Role="Trouble_Planet" EntitySet="Trouble_Planet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trouble_Passanger_Trouble" Association="Self.FK_Trouble_Passanger_Trouble">
+            <End Role="Trouble" EntitySet="Trouble" />
+            <End Role="Trouble_Passanger" EntitySet="Trouble_Passanger" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trouble_Planet_Trouble" Association="Self.FK_Trouble_Planet_Trouble">
+            <End Role="Trouble" EntitySet="Trouble" />
+            <End Role="Trouble_Planet" EntitySet="Trouble_Planet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище SpaceShip1ModelContainer" CdmEntityContainer="SpaceShipDB">
+          <EntitySetMapping Name="Flight">
+            <EntityTypeMapping TypeName="SpaceShip1Model.Flight">
+              <MappingFragment StoreEntitySet="Flight">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="SpaceshipId" ColumnName="SpaceshipId" />
+                <ScalarProperty Name="RouteId" ColumnName="RouteId" />
+                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Flight_Passanger">
+            <EntityTypeMapping TypeName="SpaceShip1Model.Flight_Passanger">
+              <MappingFragment StoreEntitySet="Flight_Passanger">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idPassanger" ColumnName="idPassanger" />
+                <ScalarProperty Name="idFlight" ColumnName="idFlight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gender">
+            <EntityTypeMapping TypeName="SpaceShip1Model.Gender">
+              <MappingFragment StoreEntitySet="Gender">
+                <ScalarProperty Name="Gender1" ColumnName="Gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Passenger">
+            <EntityTypeMapping TypeName="SpaceShip1Model.Passenger">
+              <MappingFragment StoreEntitySet="Passenger">
+                <ScalarProperty Name="Pasport_Number" ColumnName="Pasport_Number" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Planet">
+            <EntityTypeMapping TypeName="SpaceShip1Model.Planet">
+              <MappingFragment StoreEntitySet="Planet">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Max_Weight" ColumnName="Max_Weight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Route">
+            <EntityTypeMapping TypeName="SpaceShip1Model.Route">
+              <MappingFragment StoreEntitySet="Route">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Planet1Id" ColumnName="Planet1Id" />
+                <ScalarProperty Name="Planet2Id" ColumnName="Planet2Id" />
+                <ScalarProperty Name="Wearout" ColumnName="Wearout" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Spaceship">
+            <EntityTypeMapping TypeName="SpaceShip1Model.Spaceship">
+              <MappingFragment StoreEntitySet="Spaceship">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Deterioration" ColumnName="Deterioration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SpaceShip1Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trouble">
+            <EntityTypeMapping TypeName="SpaceShip1Model.Trouble">
+              <MappingFragment StoreEntitySet="Trouble">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trouble_Passanger">
+            <EntityTypeMapping TypeName="SpaceShip1Model.Trouble_Passanger">
+              <MappingFragment StoreEntitySet="Trouble_Passanger">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Trouble_Id" ColumnName="Trouble_Id" />
+                <ScalarProperty Name="Passenger_Id" ColumnName="Passenger_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trouble_Planet">
+            <EntityTypeMapping TypeName="SpaceShip1Model.Trouble_Planet">
+              <MappingFragment StoreEntitySet="Trouble_Planet">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Trouble_Id" ColumnName="Trouble_Id" />
+                <ScalarProperty Name="Planet_Id" ColumnName="Planet_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
